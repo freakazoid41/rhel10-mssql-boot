@@ -18,18 +18,6 @@ timedatectl set-timezone Europe/Istanbul || true
 log "repos sanity"
 dnf -C repolist | grep -qE 'appstream' || die "AppStream repo not enabled"
 
-log "base packages"
-dnf install -y gcc gcc-c++ make unzip tar pkgconf-pkg-config unixODBC \
-  openssl policycoreutils-python-utils
-
-log "PHP 8.3 + extensions"
-dnf install -y php php-cli php-fpm php-common php-pdo php-pgsql php-mbstring \
-  php-xml php-gd php-pecl-zip php-intl php-bcmath php-opcache php-soap \
-  php-process php-odbc php-devel php-pear
-
-log "nginx"
-dnf install -y nginx
-
 log "download bundle"
 mkdir -p "$WORK"; cd "$WORK"
 for f in \
@@ -46,6 +34,18 @@ for f in \
   curl -fL --retry 5 --retry-delay 3 -O "$BASE/$f"
 done
 sha256sum -c --ignore-missing SHA256SUMS || die "checksum mismatch"
+
+log "base packages"
+dnf install -y gcc gcc-c++ make unzip tar pkgconf-pkg-config unixODBC \
+  openssl policycoreutils-python-utils
+
+log "PHP 8.3 + extensions"
+dnf install -y php php-cli php-fpm php-common php-pdo php-pgsql php-mbstring \
+  php-xml php-gd php-pecl-zip php-intl php-bcmath php-opcache php-soap \
+  php-process php-odbc php-devel php-pear
+
+log "nginx"
+dnf install -y nginx
 
 log "microsoft key"
 rpm --import microsoft-2025.asc
