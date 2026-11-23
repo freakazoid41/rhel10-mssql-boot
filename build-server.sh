@@ -78,7 +78,7 @@ systemctl enable --now mssql-server
 systemctl restart mssql-server
 
 log "PHP sqlsrv drivers"
-pecl install ./sqlsrv-5.13.3.tgz ./pdo_sqlsrv-5.13.3.tgz
+pecl install ./sqlsrv-5.13.3.tgz ./pdo_sqlsrv-5.13.3.tgz </dev/null
 echo 'extension=sqlsrv.so'     > /etc/php.d/30-sqlsrv.ini
 echo 'extension=pdo_sqlsrv.so' > /etc/php.d/30-pdo_sqlsrv.ini
 
